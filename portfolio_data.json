@@ -1,0 +1,78 @@
+{
+  "name": "Sharath M B",
+  "title": "AI & Data Science Engineer",
+  "location": "Karnataka, India",
+  "email": "smb81980@gmail.com",
+  "github": "https://github.com/sharathmb07",
+  "linkedin": "https://www.linkedin.com/in/sharathmb07",
+  "education": {
+    "degree": "Bachelor of Engineering (B.E.) in Artificial Intelligence and Data Science",
+    "university": "Visvesvaraya Technological University (VTU)",
+    "expected_graduation": 2027
+  },
+  "skills": {
+    "generative_ai_and_llms": [
+      "Generative AI",
+      "Large Language Models (LLMs)",
+      "Gemini API",
+      "Google AI Studio",
+      "BigQuery ML"
+    ],
+    "rag_and_agentic_systems": [
+      "RAG",
+      "GraphRAG",
+      "Agentic AI",
+      "Multi-Agent RAG",
+      "LangChain",
+      "ChromaDB"
+    ],
+    "backend_and_ai_automation": [
+      "Python",
+      "FastAPI",
+      "n8n Automation",
+      "REST APIs",
+      "SQL",
+      "Docker"
+    ],
+    "cloud_and_developer_tools": [
+      "Git",
+      "GitHub",
+      "AWS"
+    ]
+  },
+  "projects": [
+    {
+      "name": "Local Multi-Agent RAG System using GraphRAG",
+      "summary": "Knowledge-graph-powered retrieval fused with local LLM multi-hop reasoning.",
+      "problem": "Standard vector-only RAG struggles with multi-hop relationships and global structural queries across interconnected documents.",
+      "solution": "Designed a local multi-agent GraphRAG pipeline that extracts entities and relationships into a knowledge graph, enabling specialized agents to traverse connected context before synthesis.",
+      "tech_stack": ["GraphRAG", "Agentic AI", "Python", "Knowledge Graphs", "LLMs"],
+      "github": "https://github.com/sharathmb07"
+    },
+    {
+      "name": "RAG using LLM (n8n)",
+      "summary": "Automated RAG and LLM workflow orchestration powered by n8n, Gemini API, and ChromaDB.",
+      "problem": "Manual document indexing and single-prompt LLM pipelines lack reliability, validation, and automated trigger-based execution.",
+      "solution": "Engineered an end-to-end n8n automation workflow integrating REST APIs, ChromaDB vector retrieval, and Gemini LLM synthesis with structured JSON validation.",
+      "tech_stack": ["n8n", "Gemini API", "Google AI Studio", "ChromaDB", "LangChain"],
+      "github": "https://github.com/sharathmb07/RAG-using-LLM-n8n-"
+    }
+  ],
+  "certifications": [
+    {
+      "issuer": "Oracle",
+      "title": "Agentic AI Certified Foundations Associate",
+      "details": "Foundational certification from Oracle covering agentic AI architectures, orchestration workflows, and intelligent system design."
+    },
+    {
+      "issuer": "Skill India Digital Hub",
+      "title": "AI & Data Engineering",
+      "details": "Verified certifications in AI Data Engineering, Agentic AI, and BigQuery ML practical labs on Skill India Digital Hub."
+    },
+    {
+      "issuer": "Sololearn",
+      "title": "Programming & Software Design",
+      "details": "Certifications in core programming languages, algorithms, and software design principles."
+    }
+  ]
+}

@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sharath M B — AI &amp; Data Science Engineer | Portfolio</title>
+  <meta name="description" content="Personal AI &amp; Data Science portfolio of Sharath M B featuring Local Multi-Agent RAG System using GraphRAG, RAG using LLM (n8n), Oracle Agentic AI certification, and an interactive 3D AI assistant." />
+  <meta property="og:title" content="Sharath M B — AI &amp; Data Science Engineer" />
+  <meta property="og:description" content="Explore Sharath M B's Generative AI, GraphRAG, and n8n automation projects and chat with his portfolio AI assistant." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            burgundy: '#641B35',
+            'dark-burgundy': '#3D1022',
+            offwhite: '#F7F3EE',
+            cream: '#EDE4DC',
+          },
+          fontFamily: {
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root {
+      --burgundy: #641B35;
+      --dark-burgundy: #3D1022;
+      --offwhite: #F7F3EE;
+      --cream: #EDE4DC;
+    }
+
+    html, body {
+      background-color: var(--offwhite);
+      color: var(--dark-burgundy);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .glass-nav {
+      background: rgba(247, 243, 238, 0.78);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(100, 27, 53, 0.1);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .apple-card {
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .apple-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 48px -16px rgba(61, 16, 34, 0.14);
+    }
+
+    .hero-gradient-overlay {
+      background: radial-gradient(circle at 50% 45%, rgba(247, 243, 238, 0.18) 0%, rgba(247, 243, 238, 0.65) 58%, rgba(247, 243, 238, 0.96) 100%);
+    }
+
+    .arch-node {
+      transition: transform 0.25s ease, filter 0.25s ease;
+    }
+    .arch-node:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 8px 16px rgba(100, 27, 53, 0.18));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .apple-card, .apple-card:hover {
+        transition: none !important;
+        transform: none !important;
+      }
+      html {
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* Custom subtle scrollbar for chat */
+    .chat-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .chat-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .chat-scroll::-webkit-scrollbar-thumb {
+      background: rgba(100, 27, 53, 0.22);
+      border-radius: 9999px;
+    }
+
+    @media print {
+      header, #robot-widget, #hero-canvas, .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-offwhite text-dark-burgundy selection:bg-burgundy selection:text-offwhite">
+
+  <!-- Sticky Minimal Navigation -->
+  <header class="fixed top-0 left-0 right-0 z-40 glass-nav">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 group" aria-label="Sharath M B Home">
+        <span class="w-9 h-9 rounded-full bg-burgundy text-offwhite flex items-center justify-center text-xs font-semibold tracking-wider transition-transform duration-300 group-hover:scale-105">
+          SMB
+        </span>
+        <span class="text-sm font-semibold tracking-tight text-dark-burgundy">Sharath M B</span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-8 text-xs font-medium tracking-wide text-dark-burgundy/80">
+        <a href="#about" class="hover:text-burgundy transition-colors">About</a>
+        <a href="#skills" class="hover:text-burgundy transition-colors">Skills</a>
+        <a href="#projects" class="hover:text-burgundy transition-colors">Projects</a>
+        <a href="#certifications" class="hover:text-burgundy transition-colors">Certifications</a>
+        <a href="#resume" class="hover:text-burgundy transition-colors">Resume</a>
+        <a href="#contact" class="px-4 py-2 rounded-full bg-burgundy text-offwhite hover:bg-dark-burgundy transition-colors">Contact</a>
+      </nav>
+
+      <button id="mobile-menu-btn" type="button" class="md:hidden p-2 rounded-xl text-dark-burgundy hover:bg-cream transition-colors" aria-label="Toggle navigation menu" aria-expanded="false">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-burgundy/10 bg-offwhite/95 backdrop-blur-xl px-6 py-5 space-y-3">
+      <a href="#about" class="mobile-nav-link block py-2 text-sm font-medium text-dark-burgundy hover:text-burgundy">About</a>
+      <a href="#skills" class="mobile-nav-link block py-2 text-sm font-medium text-dark-burgundy hover:text-burgundy">Skills</a>
+      <a href="#projects" class="mobile-nav-link block py-2 text-sm font-medium text-dark-burgundy hover:text-burgundy">Projects</a>
+      <a href="#certifications" class="mobile-nav-link block py-2 text-sm font-medium text-dark-burgundy hover:text-burgundy">Certifications</a>
+      <a href="#resume" class="mobile-nav-link block py-2 text-sm font-medium text-dark-burgundy hover:text-burgundy">Resume</a>
+      <a href="#contact" class="mobile-nav-link block py-2 text-sm font-semibold text-burgundy">Contact</a>
+    </div>
+  </header>
+
+  <!-- Full-Screen 3D Hero Environment -->
+  <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <canvas id="hero-canvas" class="absolute inset-0 w-full h-full block" aria-hidden="true"></canvas>
+    <div class="hero-gradient-overlay absolute inset-0 pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-6 sm:px-8 text-center py-20">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cream/90 border border-burgundy/15 text-burgundy text-xs font-medium tracking-wide mb-8 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-burgundy"></span>
+        <span>AI &amp; Data Science Engineer</span>
+      </div>
+
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight text-dark-burgundy leading-[1.06] mb-6">
+        Building Intelligence.<br />
+        <span class="text-burgundy">Creating Possibilities.</span>
+      </h1>
+
+      <p class="text-lg sm:text-2xl font-medium text-dark-burgundy/90 tracking-tight mb-3">
+        Sharath M B
+      </p>
+      <p class="max-w-2xl mx-auto text-sm sm:text-base text-dark-burgundy/70 leading-relaxed mb-10">
+        Engineering Generative AI systems, Local Multi-Agent GraphRAG architectures, and automated LLM workflows with clean precision.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="#projects" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-burgundy text-offwhite text-sm font-medium hover:bg-dark-burgundy transition-all shadow-lg shadow-burgundy/20">
+          Explore My Work
+        </a>
+        <button id="hero-resume-btn" type="button" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-offwhite/90 text-dark-burgundy border border-burgundy/25 text-sm font-medium hover:bg-cream transition-all">
+          Download Resume
+        </button>
+      </div>
+    </div>
+
+    <a href="#about" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 text-xs font-medium text-dark-burgundy/60 hover:text-burgundy transition-colors" aria-label="Scroll to About section">
+      <span>Scroll</span>
+      <svg class="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+      </svg>
+    </a>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="about" class="py-24 md:py-32 px-6 sm:px-8 max-w-7xl mx-auto">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div class="lg:col-span-7 space-y-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-burgundy">About Me</p>
+        <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-dark-burgundy leading-tight">
+          Designing practical AI systems from first principles.
+        </h2>
+        <p class="text-base sm:text-lg text-dark-burgundy/75 leading-relaxed">
+          I am <strong class="font-semibold text-dark-burgundy">Sharath M B</strong>, a Bachelor of Engineering undergraduate in <strong class="font-semibold text-dark-burgundy">Artificial Intelligence and Data Science</strong> at Visvesvaraya Technological University (VTU), Karnataka (Expected Graduation: 2027).
+        </p>
+        <p class="text-base sm:text-lg text-dark-burgundy/75 leading-relaxed">
+          My engineering focus centers on Generative AI, Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), GraphRAG, and Agentic AI. I build structured, observable pipelines that connect knowledge graphs, vector stores, and workflow automation tools like n8n and FastAPI.
+        </p>
+      </div>
+
+      <div class="lg:col-span-5">
+        <div class="rounded-3xl bg-cream p-8 sm:p-10 border border-burgundy/10 space-y-6">
+          <div class="flex items-start justify-between border-b border-burgundy/10 pb-5">
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wider text-burgundy/80">Degree</p>
+              <p class="text-base font-semibold text-dark-burgundy mt-1">B.E. in AI &amp; Data Science</p>
+              <p class="text-sm text-dark-burgundy/70">Visvesvaraya Technological University (VTU)</p>
+            </div>
+            <span class="px-3 py-1 rounded-full bg-offwhite text-xs font-medium text-burgundy border border-burgundy/15">2027</span>
+          </div>
+
+          <div class="border-b border-burgundy/10 pb-5">
+            <p class="text-xs font-medium uppercase tracking-wider text-burgundy/80">Core Focus</p>
+            <p class="text-sm text-dark-burgundy/80 mt-1.5 leading-relaxed">
+              LLMs, Agentic GraphRAG, Multi-Agent RAG Orchestration, n8n Automation, FastAPI, and Python Engineering.
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <p class="text-xs font-medium uppercase tracking-wider text-burgundy/80">Location</p>
+              <p class="text-sm font-medium text-dark-burgundy mt-1">Karnataka, India</p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+              <a href="https://github.com/sharathmb07" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-dark-burgundy text-offwhite text-xs font-medium hover:bg-burgundy transition-colors">
+                <span>GitHub</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+                </svg>
+              </a>
+              <a href="https://www.linkedin.com/in/sharathmb07" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-offwhite text-dark-burgundy border border-burgundy/20 text-xs font-medium hover:bg-burgundy hover:text-offwhite transition-colors">
+                <span>LinkedIn</span>
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M7 17L17 7M7 7h10v10" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technical Skills Section -->
+  <section id="skills" class="py-24 md:py-32 px-6 sm:px-8 bg-cream/60 border-y border-burgundy/10">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal max-w-2xl mb-14">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-burgundy mb-3">Technical Skills</p>
+        <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-dark-burgundy leading-tight">
+          A focused stack for intelligent systems.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Skill Card 1 -->
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-8 border border-burgundy/10">
+          <div class="w-11 h-11 rounded-2xl bg-burgundy/10 text-burgundy flex items-center justify-center mb-6">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v3m0 12v3m9-9h-3M6 12H3m15.364-6.364l-2.121 2.121M8.757 15.243l-2.121 2.121m0-12.728l2.121 2.121m6.486 6.486l2.121 2.121" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-dark-burgundy mb-2">Generative AI &amp; LLMs</h3>
+          <p class="text-sm text-dark-burgundy/70 mb-5 leading-relaxed">Model integration, structured prompt engineering, and scalable ML experimentation.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Generative AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Large Language Models</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Gemini API</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Google AI Studio</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">BigQuery ML</span>
+          </div>
+        </div>
+
+        <!-- Skill Card 2 -->
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-8 border border-burgundy/10">
+          <div class="w-11 h-11 rounded-2xl bg-burgundy/10 text-burgundy flex items-center justify-center mb-6">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-dark-burgundy mb-2">RAG &amp; Agentic Systems</h3>
+          <p class="text-sm text-dark-burgundy/70 mb-5 leading-relaxed">Knowledge-graph retrieval, multi-agent reasoning, and vector similarity search.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">RAG</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">GraphRAG</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Agentic AI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Multi-Agent RAG</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">LangChain</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">ChromaDB</span>
+          </div>
+        </div>
+
+        <!-- Skill Card 3 -->
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-8 border border-burgundy/10">
+          <div class="w-11 h-11 rounded-2xl bg-burgundy/10 text-burgundy flex items-center justify-center mb-6">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-dark-burgundy mb-2">Backend &amp; AI Automation</h3>
+          <p class="text-sm text-dark-burgundy/70 mb-5 leading-relaxed">End-to-end API orchestration, automated data synthesis, and reliable backend services.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Python</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">FastAPI</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">n8n Automation</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">REST APIs</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">SQL</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Docker</span>
+          </div>
+        </div>
+
+        <!-- Skill Card 4 -->
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-8 border border-burgundy/10">
+          <div class="w-11 h-11 rounded-2xl bg-burgundy/10 text-burgundy flex items-center justify-center mb-6">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-dark-burgundy mb-2">Cloud &amp; Developer Tools</h3>
+          <p class="text-sm text-dark-burgundy/70 mb-5 leading-relaxed">Version control, collaborative development workflows, and cloud infrastructure.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">Git</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">GitHub</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-cream text-xs font-medium text-dark-burgundy">AWS</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Storytelling Section -->
+  <section id="projects" class="py-24 md:py-32 px-6 sm:px-8 max-w-7xl mx-auto">
+    <div class="reveal max-w-3xl mb-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-burgundy mb-3">Selected Engineering</p>
+      <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-dark-burgundy leading-tight">
+        Built like products.<br />Engineered for intelligence.
+      </h2>
+    </div>
+
+    <div id="projects-container" class="space-y-16">
+      <!-- Populated dynamically by JS for clean interactive tabs & modals -->
+    </div>
+  </section>
+
+  <!-- Certifications & Achievements Section -->
+  <section id="certifications" class="py-24 md:py-32 px-6 sm:px-8 bg-cream/60 border-y border-burgundy/10">
+    <div class="max-w-7xl mx-auto">
+      <div class="reveal max-w-2xl mb-14">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-burgundy mb-3">Certifications &amp; Milestones</p>
+        <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-dark-burgundy leading-tight">
+          Verified technical credentials.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-7 border border-burgundy/10 flex flex-col justify-between">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-burgundy/10 text-burgundy text-xs font-semibold mb-4">Oracle</span>
+            <h3 class="text-lg font-semibold text-dark-burgundy mb-2">Agentic AI Certified Foundations Associate</h3>
+            <p class="text-sm text-dark-burgundy/70 leading-relaxed">Foundational certification from Oracle covering agentic AI architectures, orchestration workflows, and intelligent system design.</p>
+          </div>
+          <p class="text-xs font-medium text-burgundy mt-6">Oracle</p>
+        </div>
+
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-7 border border-burgundy/10 flex flex-col justify-between">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-burgundy/10 text-burgundy text-xs font-semibold mb-4">Skill India Digital</span>
+            <h3 class="text-lg font-semibold text-dark-burgundy mb-2">AI &amp; Data Engineering</h3>
+            <p class="text-sm text-dark-burgundy/70 leading-relaxed">Verified certifications in AI Data Engineering, Agentic AI, and BigQuery ML practical labs on Skill India Digital Hub.</p>
+          </div>
+          <p class="text-xs font-medium text-burgundy mt-6">Skill India Digital Hub</p>
+        </div>
+
+        <div class="reveal apple-card rounded-3xl bg-offwhite p-7 border border-burgundy/10 flex flex-col justify-between">
+          <div>
+            <span class="inline-block px-3 py-1 rounded-full bg-burgundy/10 text-burgundy text-xs font-semibold mb-4">Sololearn</span>
+            <h3 class="text-lg font-semibold text-dark-burgundy mb-2">Programming &amp; Software Design</h3>
+            <p class="text-sm text-dark-burgundy/70 leading-relaxed">Earned certifications in core programming languages, algorithms, and software design principles.</p>
+          </div>
+          <p class="text-xs font-medium text-burgundy mt-6">Sololearn</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume Section -->
+  <section id="resume" class="py-24 md:py-32 px-6 sm:px-8 max-w-7xl mx-auto">
+    <div class="reveal rounded-3xl bg-dark-burgundy text-offwhite p-10 sm:p-16 relative overflow-hidden">
+      <div class="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-burgundy/50 blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+        <div class="max-w-2xl space-y-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-cream/75">Curriculum Vitae</p>
+          <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight leading-tight">
+            Ready for AI &amp; Data Science engineering roles.
+          </h2>
+          <p class="text-sm sm:text-base text-cream/80 leading-relaxed">
+            Inspect my full academic background, Generative AI &amp; RAG project architecture, and verified certifications in a clean, recruiter-ready view.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4 shrink-0">
+          <button id="open-resume-modal-btn" type="button" class="px-7 py-3.5 rounded-full bg-offwhite text-dark-burgundy text-sm font-semibold hover:bg-cream transition-colors">
+            View &amp; Download Resume
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24 md:py-32 px-6 sm:px-8 max-w-7xl mx-auto border-t border-burgundy/10">
+    <div class="reveal grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div class="lg:col-span-5 space-y-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-burgundy">Contact</p>
+        <h2 class="text-3xl sm:text-5xl font-semibold tracking-tight text-dark-burgundy leading-tight">
+          Let&rsquo;s build something intelligent.
+        </h2>
+        <p class="text-base text-dark-burgundy/75 leading-relaxed">
+          Open to AI Engineering internships, entry-level Generative AI roles, and collaborative research projects.
+        </p>
+
+        <div class="space-y-4 pt-2">
+          <div class="flex items-center justify-between p-4 rounded-2xl bg-cream/80 border border-burgundy/10">
+            <div>
+              <p class="text-xs text-dark-burgundy/60">Email</p>
+              <p class="text-sm font-semibold text-dark-burgundy">smb81980@gmail.com</p>
+            </div>
+            <button id="copy-email-btn" type="button" class="px-3.5 py-1.5 rounded-full bg-offwhite text-xs font-medium text-burgundy border border-burgundy/20 hover:bg-burgundy hover:text-offwhite transition-colors">
+              Copy
+            </button>
+          </div>
+
+          <a href="https://github.com/sharathmb07" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl bg-cream/80 border border-burgundy/10 hover:border-burgundy/30 transition-colors">
+            <div>
+              <p class="text-xs text-dark-burgundy/60">GitHub</p>
+              <p class="text-sm font-semibold text-dark-burgundy">github.com/sharathmb07</p>
+            </div>
+            <span class="text-xs font-medium text-burgundy">Visit &rarr;</span>
+          </a>
+
+          <a href="https://www.linkedin.com/in/sharathmb07" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 rounded-2xl bg-cream/80 border border-burgundy/10 hover:border-burgundy/30 transition-colors">
+            <div>
+              <p class="text-xs text-dark-burgundy/60">LinkedIn</p>
+              <p class="text-sm font-semibold text-dark-burgundy">linkedin.com/in/sharathmb07</p>
+            </div>
+            <span class="text-xs font-medium text-burgundy">Connect &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-7">
+        <form id="contact-form" class="rounded-3xl bg-cream/70 p-8 sm:p-10 border border-burgundy/10 space-y-5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label for="contact-name" class="block text-xs font-medium text-dark-burgundy/80 mb-2">Your Name</label>
+              <input id="contact-name" type="text" required placeholder="Recruiter or Engineer Name" class="w-full px-4 py-3 rounded-2xl bg-offwhite border border-burgundy/15 text-sm text-dark-burgundy focus:outline-none focus:border-burgundy" />
+            </div>
+            <div>
+              <label for="contact-email" class="block text-xs font-medium text-dark-burgundy/80 mb-2">Email Address</label>
+              <input id="contact-email" type="email" required placeholder="you@company.com" class="w-full px-4 py-3 rounded-2xl bg-offwhite border border-burgundy/15 text-sm text-dark-burgundy focus:outline-none focus:border-burgundy" />
+            </div>
+          </div>
+          <div>
+            <label for="contact-message" class="block text-xs font-medium text-dark-burgundy/80 mb-2">Message</label>
+            <textarea id="contact-message" rows="4" required placeholder="Share details about an opportunity, project, or collaboration..." class="w-full px-4 py-3 rounded-2xl bg-offwhite border border-burgundy/15 text-sm text-dark-burgundy focus:outline-none focus:border-burgundy resize-none"></textarea>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <p id="contact-status" class="text-xs font-medium text-burgundy hidden"></p>
+            <button type="submit" class="ml-auto px-7 py-3 rounded-full bg-burgundy text-offwhite text-sm font-medium hover:bg-dark-burgundy transition-colors">
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal Footer -->
+  <footer class="py-10 px-6 sm:px-8 border-t border-burgundy/10 text-center text-xs text-dark-burgundy/60">
+    <p>&copy; 2026 Sharath M B &mdash; AI &amp; Data Science Engineer. Built with Three.js &amp; Burgundy/Off-White Design System.</p>
+  </footer>
+
+  <!-- Resume Modal -->
+  <div id="resume-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-dark-burgundy/50 backdrop-blur-sm p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="resume-modal-title">
+    <div class="bg-offwhite rounded-3xl max-w-2xl w-full p-6 sm:p-8 border border-burgundy/15 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="flex items-start justify-between gap-4 border-b border-burgundy/10 pb-4 mb-5">
+        <div>
+          <h3 id="resume-modal-title" class="text-2xl font-semibold text-dark-burgundy">Sharath M B</h3>
+          <p class="text-xs text-burgundy font-medium mt-0.5">AI &amp; Data Science Engineer &bull; smb81980@gmail.com &bull; linkedin.com/in/sharathmb07 &bull; Karnataka, India</p>
+        </div>
+        <button id="close-resume-modal" type="button" class="p-2 rounded-full hover:bg-cream text-dark-burgundy" aria-label="Close resume modal">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-5 text-sm text-dark-burgundy/85">
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-burgundy mb-1.5">Education</h4>
+          <p class="font-semibold text-dark-burgundy">Bachelor of Engineering (B.E.) — Artificial Intelligence &amp; Data Science</p>
+          <p class="text-xs text-dark-burgundy/70">Visvesvaraya Technological University (VTU) | Expected Graduation: 2027</p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-burgundy mb-1.5">Technical Skills</h4>
+          <p class="text-xs leading-relaxed">Python, SQL, Generative AI, LLMs, RAG, GraphRAG, Agentic AI, Gemini API, Google AI Studio, LangChain, ChromaDB, BigQuery ML, n8n Automation, FastAPI, Docker, Git, GitHub, AWS.</p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-burgundy mb-1.5">Key Projects</h4>
+          <ul class="list-disc pl-4 space-y-1 text-xs">
+            <li><strong>Local Multi-Agent RAG System using GraphRAG:</strong> Knowledge-graph-powered retrieval combined with local multi-agent LLM reasoning.</li>
+            <li><strong>RAG using LLM (n8n):</strong> Automated RAG &amp; LLM workflow pipeline orchestrated via n8n and Gemini API.</li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-burgundy mb-1.5">Certifications</h4>
+          <ul class="list-disc pl-4 space-y-1 text-xs">
+            <li>Oracle: Agentic AI Certified Foundations Associate</li>
+            <li>Skill India Digital Hub: AI &amp; Data Engineering, Agentic AI, BigQuery ML</li>
+            <li>Sololearn: Programming &amp; Software Design Certifications</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap justify-end gap-3 mt-7 pt-4 border-t border-burgundy/10">
+        <button id="download-resume-txt" type="button" class="px-5 py-2.5 rounded-full bg-cream text-dark-burgundy text-xs font-semibold hover:bg-burgundy/15 transition-colors">
+          Download .TXT
+        </button>
+        <button id="print-resume-btn" type="button" class="px-5 py-2.5 rounded-full bg-burgundy text-offwhite text-xs font-semibold hover:bg-dark-burgundy transition-colors">
+          Print / Save PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating 3D White-and-Burgundy Personal Robot Assistant (Bottom-Right) -->
+  <div id="robot-widget" class="fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3">
+    <!-- Minimal Chat Window -->
+    <div id="robot-chat-window" class="hidden w-[330px] sm:w-[370px] rounded-3xl bg-offwhite/95 backdrop-blur-xl border border-burgundy/20 shadow-2xl overflow-hidden flex flex-col">
+      <div class="bg-dark-burgundy text-offwhite px-5 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="w-2.5 h-2.5 rounded-full bg-cream animate-pulse"></span>
+          <div>
+            <p class="text-sm font-semibold leading-none">Sharath&rsquo;s AI Assistant</p>
+            <p class="text-[11px] text-cream/70 mt-1">Ask about skills, RAG projects &amp; credentials</p>
+          </div>
+        </div>
+        <button id="close-chat-btn" type="button" class="p-1.5 rounded-full hover:bg-burgundy/60 text-cream" aria-label="Close AI assistant">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <div id="chat-messages" class="chat-scroll p-4 h-72 overflow-y-auto space-y-3 text-xs">
+        <div class="bg-cream text-dark-burgundy p-3.5 rounded-2xl rounded-tl-sm max-w-[88%] leading-relaxed">
+          Hi! I&rsquo;m Sharath&rsquo;s 3D portfolio assistant. Ask me about his <strong>Local Multi-Agent RAG System using GraphRAG</strong>, <strong>RAG using LLM (n8n)</strong>, skills, or certifications.
+        </div>
+      </div>
+
+      <!-- Quick Recruiter Prompts -->
+      <div class="px-4 pb-2 flex flex-wrap gap-1.5">
+        <button type="button" class="chat-chip px-2.5 py-1 rounded-full bg-cream hover:bg-burgundy hover:text-offwhite text-[11px] font-medium text-dark-burgundy transition-colors" data-q="What are Sharath's top AI projects?">Top Projects</button>
+        <button type="button" class="chat-chip px-2.5 py-1 rounded-full bg-cream hover:bg-burgundy hover:text-offwhite text-[11px] font-medium text-dark-burgundy transition-colors" data-q="Tell me about his technical skills">Skills</button>
+        <button type="button" class="chat-chip px-2.5 py-1 rounded-full bg-cream hover:bg-burgundy hover:text-offwhite text-[11px] font-medium text-dark-burgundy transition-colors" data-q="List his certifications">Certifications</button>
+        <button type="button" class="chat-chip px-2.5 py-1 rounded-full bg-cream hover:bg-burgundy hover:text-offwhite text-[11px] font-medium text-dark-burgundy transition-colors" data-q="How can I contact Sharath?">Contact</button>
+      </div>
+
+      <form id="chat-form" class="p-3 border-t border-burgundy/10 flex items-center gap-2 bg-offwhite">
+        <input id="chat-input" type="text" placeholder="Ask about Sharath..." class="flex-1 px-3.5 py-2 rounded-full bg-cream/80 text-xs text-dark-burgundy placeholder-dark-burgundy/50 focus:outline-none focus:ring-1 focus:ring-burgundy" />
+        <button type="submit" class="w-8 h-8 rounded-full bg-burgundy text-offwhite flex items-center justify-center hover:bg-dark-burgundy transition-colors shrink-0" aria-label="Send message">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <!-- 3D Robot Trigger Button -->
+    <button id="robot-toggle-btn" type="button" class="group relative w-20 h-20 rounded-full bg-offwhite/90 backdrop-blur-md border border-burgundy/25 shadow-xl shadow-dark-burgundy/15 hover:scale-105 transition-transform flex items-center justify-center overflow-hidden" aria-label="Open 3D AI Robot Assistant">
+      <canvas id="robot-canvas" class="w-20 h-20 block pointer-events-none"></canvas>
+    </button>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 hidden px-5 py-2.5 rounded-full bg-dark-burgundy text-offwhite text-xs font-medium shadow-lg"></div>
+
+  <script>
+    (function () {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // ==========================================
+      // 1. PROJECT DATA & STORYTELLING RENDERING
+      // ==========================================
+      const projects = [
+        {
+          id: 'graphrag',
+          index: '01',
+          title: 'Local Multi-Agent RAG System using GraphRAG',
+          tagline: 'Knowledge-graph-powered retrieval fused with local LLM multi-hop reasoning.',
+          stack: ['GraphRAG', 'Agentic AI', 'Python', 'Knowledge Graphs', 'LLMs'],
+          problem: 'Standard vector-only RAG struggles with multi-hop relationships and global structural queries across interconnected documents.',
+          solution: 'Designed a local multi-agent GraphRAG pipeline that extracts entities and relationships into a knowledge graph, enabling specialized agents to traverse connected context before synthesis.',
+          github: 'https://github.com/sharathmb07',
+          nodes: ['Document Ingestion', 'Entity & Relation Graph', 'Agentic Graph Traversal', 'Context Fusion', 'Grounded Answer']
+        },
+        {
+          id: 'multiagent-rag',
+          index: '02',
+          title: 'RAG using LLM (n8n)',
+          tagline: 'Automated RAG and LLM workflow orchestration powered by n8n, Gemini API, and ChromaDB.',
+          stack: ['n8n', 'Gemini API', 'Google AI Studio', 'ChromaDB', 'LangChain'],
+          problem: 'Manual document indexing and single-prompt LLM pipelines lack reliability, validation, and automated trigger-based execution.',
+          solution: 'Engineered an end-to-end n8n automation workflow integrating REST APIs, ChromaDB vector retrieval, and Gemini LLM synthesis with structured JSON validation.',
+          github: 'https://github.com/sharathmb07/RAG-using-LLM-n8n-',
+          nodes: ['n8n Webhook Trigger', 'ChromaDB Retrieval', 'Multi-Agent Router', 'Gemini API', 'Validated JSON Output']
+        }
+      ];
+
+      const projectsContainer = document.getElementById('projects-container');
+
+      function renderArchitectureSVG(proj) {
+        const w = 680;
+        const h = 190;
+        const step = w / proj.nodes.length;
+        const nodesMarkup = proj.nodes.map((label, idx) => {
+          const x = idx * step + 12;
+          const boxW = step - 28;
+          const y = 62;
+          const boxH = 66;
+          const cx = x + boxW / 2;
+          const arrow = idx < proj.nodes.length - 1
+            ? `<line x1="${x + boxW}" y1="${y + boxH / 2}" x2="${x + step - 12}" y2="${y + boxH / 2}" stroke="#641B35" stroke-width="2" stroke-dasharray="4 3" />
+               <polygon points="${x + step - 12},${y + boxH / 2 - 4} ${x + step - 4},${y + boxH / 2} ${x + step - 12},${y + boxH / 2 + 4}" fill="#641B35" />`
+            : '';
+          const words = label.split(' ');
+          const line1 = words.slice(0, Math.ceil(words.length / 2)).join(' ');
+          const line2 = words.slice(Math.ceil(words.length / 2)).join(' ');
+          return `
+            <g class="arch-node">
+              <rect x="${x}" y="${y}" width="${boxW}" height="${boxH}" rx="16" fill="#F7F3EE" stroke="#641B35" stroke-opacity="0.35" stroke-width="1.5" />
+              <circle cx="${cx}" cy="${y + 15}" r="3.5" fill="#641B35" />
+              <text x="${cx}" y="${y + 34}" text-anchor="middle" fill="#3D1022" font-size="10.5" font-weight="600" font-family="Inter, sans-serif">${line1}</text>
+              ${line2 ? `<text x="${cx}" y="${y + 49}" text-anchor="middle" fill="#641B35" font-size="10" font-weight="500" font-family="Inter, sans-serif">${line2}</text>` : ''}
+            </g>
+            ${arrow}
+          `;
+        }).join('');
+
+        return `<svg viewBox="0 0 ${w} ${h}" class="w-full h-auto" role="img" aria-label="${proj.title} Architecture Diagram">${nodesMarkup}</svg>`;
+      }
+
+      projects.forEach((proj) => {
+        const card = document.createElement('article');
+        card.className = 'reveal apple-card rounded-3xl bg-cream/65 border border-burgundy/12 p-8 sm:p-12';
+        card.innerHTML = `
+          <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+            <div>
+              <span class="text-xs font-semibold tracking-[0.2em] text-burgundy uppercase">Project ${proj.index}</span>
+              <h3 class="text-2xl sm:text-4xl font-semibold tracking-tight text-dark-burgundy mt-2">${proj.title}</h3>
+              <p class="text-sm sm:text-base text-dark-burgundy/75 mt-2 max-w-2xl">${proj.tagline}</p>
+            </div>
+            <div class="inline-flex rounded-full bg-offwhite p-1 border border-burgundy/15 self-start">
+              <button type="button" class="view-toggle px-4 py-1.5 rounded-full text-xs font-medium bg-burgundy text-offwhite transition-colors" data-proj="${proj.id}" data-mode="visual">Visual</button>
+              <button type="button" class="view-toggle px-4 py-1.5 rounded-full text-xs font-medium text-dark-burgundy/75 hover:text-burgundy transition-colors" data-proj="${proj.id}" data-mode="arch">Architecture</button>
+            </div>
+          </div>
+
+          <!-- Visual / Architecture Stage -->
+          <div class="rounded-2xl bg-offwhite border border-burgundy/10 p-6 sm:p-8 mb-8">
+            <div id="stage-visual-${proj.id}" class="flex flex-col md:flex-row items-center justify-between gap-8">
+              <div class="w-full md:w-1/2 aspect-[16/10] rounded-2xl bg-gradient-to-br from-dark-burgundy via-burgundy to-dark-burgundy p-6 flex flex-col justify-between text-offwhite relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-44 h-44 rounded-full bg-cream/15 blur-xl"></div>
+                <div class="flex items-center justify-between text-[11px] uppercase tracking-widest text-cream/70">
+                  <span>System Blueprint</span>
+                  <span>${proj.index}</span>
+                </div>
+                <div>
+                  <p class="text-xl sm:text-2xl font-semibold tracking-tight">${proj.title}</p>
+                  <p class="text-xs text-cream/75 mt-1">${proj.stack.slice(0, 3).join(' • ')}</p>
+                </div>
+              </div>
+              <div class="w-full md:w-1/2 grid grid-cols-1 gap-4">
+                <div class="p-4 rounded-2xl bg-cream/60 border border-burgundy/10">
+                  <p class="text-[11px] font-semibold uppercase tracking-wider text-burgundy mb-1">Problem</p>
+                  <p class="text-xs sm:text-sm text-dark-burgundy/80 leading-relaxed">${proj.problem}</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-cream/60 border border-burgundy/10">
+                  <p class="text-[11px] font-semibold uppercase tracking-wider text-burgundy mb-1">Solution</p>
+                  <p class="text-xs sm:text-sm text-dark-burgundy/80 leading-relaxed">${proj.solution}</p>
+                </div>
+              </div>
+            </div>
+
+            <div id="stage-arch-${proj.id}" class="hidden">
+              <p class="text-xs font-semibold uppercase tracking-wider text-burgundy mb-3">Data &amp; Reasoning Flow</p>
+              ${renderArchitectureSVG(proj)}
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+            <div class="flex flex-wrap gap-2">
+              ${proj.stack.map((t) => `<span class="px-3.5 py-1.5 rounded-full bg-offwhite border border-burgundy/15 text-xs font-medium text-dark-burgundy">${t}</span>`).join('')}
+            </div>
+            <div class="flex items-center gap-3 shrink-0">
+              <a href="${proj.github}" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-full bg-burgundy text-offwhite text-xs font-semibold hover:bg-dark-burgundy transition-colors">
+                View on GitHub
+              </a>
+            </div>
+          </div>
+        `;
+        projectsContainer.appendChild(card);
+      });
+
+      // Toggle Visual vs Architecture
+      projectsContainer.addEventListener('click', (e) => {
+        const toggleBtn = e.target.closest('.view-toggle');
+        if (toggleBtn) {
+          const id = toggleBtn.dataset.proj;
+          const mode = toggleBtn.dataset.mode;
+          const parent = toggleBtn.parentElement;
+          parent.querySelectorAll('.view-toggle').forEach((b) => {
+            b.classList.remove('bg-burgundy', 'text-offwhite');
+            b.classList.add('text-dark-burgundy/75');
+          });
+          toggleBtn.classList.add('bg-burgundy', 'text-offwhite');
+          toggleBtn.classList.remove('text-dark-burgundy/75');
+
+          const visualEl = document.getElementById(`stage-visual-${id}`);
+          const archEl = document.getElementById(`stage-arch-${id}`);
+          if (mode === 'visual') {
+            visualEl.classList.remove('hidden');
+            archEl.classList.add('hidden');
+          } else {
+            visualEl.classList.add('hidden');
+            archEl.classList.remove('hidden');
+          }
+          return;
+        }
+
+      });
+
+      // ==========================================
+      // 2. RESUME MODAL + TOAST
+      // ==========================================
+
+      const resumeModal = document.getElementById('resume-modal');
+      function openResumeModal() {
+        resumeModal.classList.remove('hidden');
+        resumeModal.classList.add('flex');
+      }
+      document.getElementById('hero-resume-btn').addEventListener('click', openResumeModal);
+      document.getElementById('open-resume-modal-btn').addEventListener('click', openResumeModal);
+      document.getElementById('close-resume-modal').addEventListener('click', () => {
+        resumeModal.classList.add('hidden');
+        resumeModal.classList.remove('flex');
+      });
+
+      document.getElementById('print-resume-btn').addEventListener('click', () => {
+        window.print();
+      });
+
+      document.getElementById('download-resume-txt').addEventListener('click', () => {
+        const resumeText = [
+          'SHARATH M B',
+          'AI & Data Science Engineer | Karnataka, India',
+          'Email: smb81980@gmail.com | GitHub: https://github.com/sharathmb07 | LinkedIn: https://www.linkedin.com/in/sharathmb07',
+          '',
+          'EDUCATION',
+          'B.E. in Artificial Intelligence and Data Science',
+          'Visvesvaraya Technological University (VTU) | Expected Graduation: 2027',
+          '',
+          'TECHNICAL SKILLS',
+          'Python, Generative AI, LLMs, RAG, GraphRAG, Agentic AI, Gemini API, Google AI Studio,',
+          'LangChain, ChromaDB, BigQuery ML, n8n Automation, FastAPI, SQL, Docker, Git, GitHub, AWS',
+          '',
+          'PROJECTS',
+          '1. Local Multi-Agent RAG System using GraphRAG — Knowledge-graph-based retrieval with local multi-agent LLM reasoning',
+          '2. RAG using LLM (n8n) — Automated RAG & LLM workflow orchestration',
+          '',
+          'CERTIFICATIONS',
+          '- Oracle: Agentic AI Certified Foundations Associate',
+          '- Skill India Digital Hub: AI & Data Engineering, Agentic AI, BigQuery ML',
+          '- Sololearn: Programming & Software Design Certifications'
+        ].join('\n');
+        const blob = new Blob([resumeText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Sharath_M_B_Resume.txt';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast('Resume downloaded as Sharath_M_B_Resume.txt');
+      });
+
+      function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.classList.remove('hidden');
+        setTimeout(() => toast.classList.add('hidden'), 2800);
+      }
+
+      document.getElementById('copy-email-btn').addEventListener('click', () => {
+        const email = 'smb81980@gmail.com';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(() => showToast('Email copied: smb81980@gmail.com')).catch(() => showToast('Email: smb81980@gmail.com'));
+        } else {
+          const inp = document.createElement('input');
+          inp.value = email;
+          document.body.appendChild(inp);
+          inp.select();
+          document.execCommand('copy');
+          inp.remove();
+          showToast('Email copied: smb81980@gmail.com');
+        }
+      });
+
+      document.getElementById('contact-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('contact-name').value.trim();
+        const status = document.getElementById('contact-status');
+        status.textContent = `Thank you, ${name || 'there'}. Your message is ready — you can also reach Sharath directly at smb81980@gmail.com.`;
+        status.classList.remove('hidden');
+        e.target.reset();
+        showToast('Message recorded');
+      });
+
+      // Mobile Navigation Toggle
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        mobileBtn.setAttribute('aria-expanded', String(!isHidden));
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach((link) => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+          mobileBtn.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      // Scroll-based Reveal Observer
+      const revealEls = document.querySelectorAll('.reveal');
+      if (!prefersReducedMotion && 'IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              obs.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealEls.forEach((el) => obs.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add('visible'));
+      }
+
+      // ==========================================
+      // 3. FLOATING 3D ROBOT ASSISTANT & CHAT
+      // ==========================================
+      const robotToggleBtn = document.getElementById('robot-toggle-btn');
+      const robotChatWindow = document.getElementById('robot-chat-window');
+      const closeChatBtn = document.getElementById('close-chat-btn');
+      const chatForm = document.getElementById('chat-form');
+      const chatInput = document.getElementById('chat-input');
+      const chatMessages = document.getElementById('chat-messages');
+
+      robotToggleBtn.addEventListener('click', () => {
+        robotChatWindow.classList.toggle('hidden');
+      });
+      closeChatBtn.addEventListener('click', () => {
+        robotChatWindow.classList.add('hidden');
+      });
+
+      const chatHistory = [];
+      const API_ENDPOINT = '/api/chat';
+
+      function appendChatMessage(text, isUser) {
+        const bubble = document.createElement('div');
+        bubble.className = isUser
+          ? 'ml-auto bg-burgundy text-offwhite p-3 rounded-2xl rounded-tr-sm max-w-[85%] leading-relaxed'
+          : 'bg-cream text-dark-burgundy p-3.5 rounded-2xl rounded-tl-sm max-w-[88%] leading-relaxed whitespace-pre-line';
+        bubble.textContent = text;
+        chatMessages.appendChild(bubble);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return bubble;
+      }
+
+      function showThinkingBubble() {
+        const el = document.createElement('div');
+        el.className = 'bg-cream/80 text-burgundy/80 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[60%] text-[11px] font-medium flex items-center gap-2';
+        el.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-burgundy animate-bounce"></span><span>Thinking...</span>';
+        chatMessages.appendChild(el);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        return el;
+      }
+
+      async function handleUserPrompt(val) {
+        appendChatMessage(val, true);
+        const thinking = showThinkingBubble();
+        try {
+          const res = await fetch(API_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ message: val, history: chatHistory.slice(-6) })
+          });
+          if (!res.ok) {
+            throw new Error('Backend returned ' + res.status);
+          }
+          const data = await res.json();
+          thinking.remove();
+          appendChatMessage(data.reply, false);
+          chatHistory.push({ role: 'user', content: val });
+          chatHistory.push({ role: 'assistant', content: data.reply });
+        } catch (err) {
+          thinking.remove();
+          appendChatMessage('Unable to reach the FastAPI AI backend at /api/chat. Start the server with: uvicorn backend.main:app --reload', false);
+        }
+      }
+
+      chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const val = chatInput.value.trim();
+        if (!val) return;
+        chatInput.value = '';
+        handleUserPrompt(val);
+      });
+
+      document.querySelectorAll('.chat-chip').forEach((chip) => {
+        chip.addEventListener('click', () => {
+          handleUserPrompt(chip.dataset.q);
+        });
+      });
+
+      // ==========================================
+      // 4. THREE.JS 3D HERO & 3D ROBOT SCENES
+      // ==========================================
+      function initHero3D() {
+        if (typeof THREE === 'undefined') return;
+        const canvas = document.getElementById('hero-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0xF7F3EE, 0.045);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0, 1.2, 11);
+
+        // Lighting
+        const ambient = new THREE.AmbientLight(0xF7F3EE, 0.9);
+        scene.add(ambient);
+
+        const keyLight = new THREE.DirectionalLight(0xFFF8F0, 1.3);
+        keyLight.position.set(6, 10, 7);
+        scene.add(keyLight);
+
+        const burgundyLight = new THREE.PointLight(0x641B35, 2.2, 24);
+        burgundyLight.position.set(-5, 3, 4);
+        scene.add(burgundyLight);
+
+        const rimLight = new THREE.PointLight(0xEDE4DC, 1.6, 20);
+        rimLight.position.set(5, -1, 3);
+        scene.add(rimLight);
+
+        // Reflective Floor Plane
+        const floorGeo = new THREE.PlaneGeometry(50, 50);
+        const floorMat = new THREE.MeshStandardMaterial({
+          color: 0xEDE4DC,
+          metalness: 0.72,
+          roughness: 0.18,
+        });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.y = -2.6;
+        scene.add(floor);
+
+        // Architectural Burgundy & Ivory Monoliths
+        const archGroup = new THREE.Group();
+        const pillarMatBurgundy = new THREE.MeshStandardMaterial({ color: 0x641B35, metalness: 0.35, roughness: 0.25 });
+        const pillarMatIvory = new THREE.MeshStandardMaterial({ color: 0xF7F3EE, metalness: 0.2, roughness: 0.3 });
+
+        const pillarConfigs = [
+          { x: -5.2, z: -4.5, h: 7.5, mat: pillarMatBurgundy },
+          { x: -3.4, z: -6.2, h: 9.0, mat: pillarMatIvory },
+          { x: 3.6, z: -5.8, h: 8.4, mat: pillarMatIvory },
+          { x: 5.5, z: -4.2, h: 7.0, mat: pillarMatBurgundy },
+        ];
+        pillarConfigs.forEach((cfg) => {
+          const geo = new THREE.BoxGeometry(1.1, cfg.h, 1.1);
+          const mesh = new THREE.Mesh(geo, cfg.mat);
+          mesh.position.set(cfg.x, cfg.h / 2 - 2.6, cfg.z);
+          archGroup.add(mesh);
+        });
+        scene.add(archGroup);
+
+        // Floating 3D Spheres & Glass Objects
+        const floaters = [];
+        const glassMat = new THREE.MeshPhysicalMaterial({
+          color: 0xF7F3EE,
+          metalness: 0.1,
+          roughness: 0.06,
+          transparent: true,
+          opacity: 0.65,
+          clearcoat: 1.0,
+          clearcoatRoughness: 0.05,
+        });
+        const burgundySphereMat = new THREE.MeshStandardMaterial({
+          color: 0x641B35,
+          metalness: 0.65,
+          roughness: 0.16,
+        });
+        const darkBurgundyMat = new THREE.MeshStandardMaterial({
+          color: 0x3D1022,
+          metalness: 0.75,
+          roughness: 0.18,
+        });
+
+        const shapes = [
+          { geo: new THREE.SphereGeometry(0.95, 48, 48), mat: burgundySphereMat, pos: [-3.2, 1.4, 0.5], speed: 0.7 },
+          { geo: new THREE.SphereGeometry(0.65, 36, 36), mat: glassMat, pos: [3.3, 1.9, 1.0], speed: 0.9 },
+          { geo: new THREE.TorusGeometry(1.15, 0.14, 24, 64), mat: glassMat, pos: [0, 0.8, -1.2], speed: 0.5 },
+          { geo: new THREE.IcosahedronGeometry(0.75, 0), mat: darkBurgundyMat, pos: [4.2, -0.5, -0.6], speed: 0.8 },
+          { geo: new THREE.SphereGeometry(0.45, 32, 32), mat: glassMat, pos: [-4.1, -0.8, 1.2], speed: 1.1 },
+        ];
+
+        shapes.forEach((s) => {
+          const m = new THREE.Mesh(s.geo, s.mat);
+          m.position.set(...s.pos);
+          m.userData = { baseY: s.pos[1], speed: s.speed };
+          scene.add(m);
+          floaters.push(m);
+        });
+
+        let pointerX = 0;
+        let pointerY = 0;
+        window.addEventListener('pointermove', (e) => {
+          pointerX = (e.clientX / window.innerWidth - 0.5) * 2;
+          pointerY = (e.clientY / window.innerHeight - 0.5) * 2;
+        });
+
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        const clock = new THREE.Clock();
+        function animate() {
+          requestAnimationFrame(animate);
+          const t = clock.getElapsedTime();
+
+          if (!prefersReducedMotion) {
+            floaters.forEach((m, i) => {
+              m.position.y = m.userData.baseY + Math.sin(t * m.userData.speed + i) * 0.28;
+              m.rotation.x += 0.003 * m.userData.speed;
+              m.rotation.y += 0.005 * m.userData.speed;
+            });
+            camera.position.x += (pointerX * 0.8 - camera.position.x) * 0.04;
+            camera.position.y += (1.2 - pointerY * 0.45 - camera.position.y) * 0.04;
+            camera.lookAt(0, 0.3, 0);
+          }
+
+          renderer.render(scene, camera);
+        }
+        animate();
+      }
+
+      function initRobot3D() {
+        if (typeof THREE === 'undefined') return;
+        const canvas = document.getElementById('robot-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setSize(80, 80);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 20);
+        camera.position.set(0, 0.2, 4.2);
+
+        scene.add(new THREE.AmbientLight(0xFFFFFF, 1.0));
+        const dir = new THREE.DirectionalLight(0xFFF5EC, 1.2);
+        dir.position.set(2, 4, 4);
+        scene.add(dir);
+
+        const robot = new THREE.Group();
+        const whiteMat = new THREE.MeshStandardMaterial({ color: 0xF7F3EE, metalness: 0.25, roughness: 0.2 });
+        const burgundyMat = new THREE.MeshStandardMaterial({ color: 0x641B35, metalness: 0.4, roughness: 0.25 });
+        const visorMat = new THREE.MeshStandardMaterial({ color: 0x3D1022, metalness: 0.6, roughness: 0.15 });
+        const eyeMat = new THREE.MeshBasicMaterial({ color: 0xEDE4DC });
+
+        // Head
+        const head = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.9, 0.95), whiteMat);
+        head.position.y = 0.45;
+        robot.add(head);
+
+        // Burgundy Visor
+        const visor = new THREE.Mesh(new THREE.BoxGeometry(0.96, 0.45, 0.12), visorMat);
+        visor.position.set(0, 0.47, 0.46);
+        robot.add(visor);
+
+        // Glowing Eyes
+        const eyeL = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 16), eyeMat);
+        eyeL.position.set(-0.24, 0.48, 0.52);
+        const eyeR = eyeL.clone();
+        eyeR.position.x = 0.24;
+        robot.add(eyeL, eyeR);
+
+        // Antenna
+        const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.35, 12), burgundyMat);
+        stem.position.set(0, 1.05, 0);
+        const tip = new THREE.Mesh(new THREE.SphereGeometry(0.09, 16, 16), burgundyMat);
+        tip.position.set(0, 1.25, 0);
+        robot.add(stem, tip);
+
+        // Torso
+        const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.35, 0.65, 24), burgundyMat);
+        torso.position.y = -0.4;
+        robot.add(torso);
+
+        scene.add(robot);
+
+        const clock = new THREE.Clock();
+        function animateRobot() {
+          requestAnimationFrame(animateRobot);
+          const t = clock.getElapsedTime();
+          if (!prefersReducedMotion) {
+            robot.position.y = Math.sin(t * 2.2) * 0.1;
+            robot.rotation.y = Math.sin(t * 1.1) * 0.28;
+          }
+          renderer.render(scene, camera);
+        }
+        animateRobot();
+      }
+
+      window.addEventListener('load', () => {
+        initHero3D();
+        initRobot3D();
+      });
+    })();
+  </script>
+</body>
+</html>
