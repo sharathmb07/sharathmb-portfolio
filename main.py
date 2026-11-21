@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from typing import List, Literal, Optional
+from typing import List, Literal
 
 import httpx
 from dotenv import load_dotenv
@@ -14,7 +14,7 @@ load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_PATH = BASE_DIR / "portfolio_data.json"
-FRONTEND_PATH = BASE_DIR.parent / "frontend" / "index.html"
+FRONTEND_PATH = BASE_DIR / "public" / "index.html"
 
 with DATA_PATH.open("r", encoding="utf-8") as f:
     PORTFOLIO_DATA = json.load(f)
@@ -40,7 +40,6 @@ VERIFIED PORTFOLIO DATA:
 {json.dumps(PORTFOLIO_DATA, indent=2)}
 """
 
-# Fast keyword pre-filter for clearly off-topic prompts to save LLM tokens
 PORTFOLIO_ALLOW_KEYWORDS = {
     "sharath", "portfolio", "skill", "skills", "stack", "tech", "python", "fastapi",
     "rag", "graphrag", "n8n", "llm", "ai", "agent", "agentic", "gemini", "chroma",
@@ -59,6 +58,37 @@ def is_likely_in_scope(message: str) -> bool:
     if len(text) <= 18 and any(g in text for g in ("hi", "hello", "hey", "thanks", "thank")):
         return True
     return any(kw in text for kw in PORTFOLIO_ALLOW_KEYWORDS)
+
+
+def fallback_portfolio_answer(message: str) -> str:
+    q = message.lower()
+    if any(k in q for k in ("project", "graphrag", "rag", "n8n", "multi-agent")):
+        return (
+            "Sharath showcases two core AI projects: Local Multi-Agent RAG System using GraphRAG "
+            "(knowledge-graph retrieval with local multi-agent LLM reasoning) and RAG using LLM (n8n) "
+            "(automated workflow with n8n, Gemini API, and ChromaDB at github.com/sharathmb07/RAG-using-LLM-n8n-)."
+        )
+    if any(k in q for k in ("skill", "stack", "tech", "python", "fastapi", "aws", "docker", "git")):
+        return (
+            "Sharath's technical stack covers Generative AI & LLMs (Gemini API, Google AI Studio, BigQuery ML), "
+            "RAG & Agentic Systems (GraphRAG, LangChain, ChromaDB), Backend & Automation (Python, FastAPI, n8n, SQL, Docker), "
+            "and Cloud & Developer Tools (Git, GitHub, AWS)."
+        )
+    if any(k in q for k in ("cert", "oracle", "sololearn", "skill india", "education", "vtu", "degree")):
+        return (
+            "Sharath is pursuing a B.E. in Artificial Intelligence and Data Science at VTU (Expected 2027). "
+            "His certifications include Oracle Agentic AI Certified Foundations Associate, Skill India Digital Hub "
+            "(AI & Data Engineering, Agentic AI, BigQuery ML), and Sololearn (Programming & Software Design)."
+        )
+    if any(k in q for k in ("contact", "email", "linkedin", "github", "hire", "resume", "cv")):
+        return (
+            "You can contact Sharath at smb81980@gmail.com, connect on linkedin.com/in/sharathmb07, "
+            "or explore his repositories at github.com/sharathmb07."
+        )
+    return (
+        "Sharath M B is an AI & Data Science Engineer (B.E. at VTU, Expected 2027) focused on Generative AI, "
+        "GraphRAG, Agentic AI, and n8n automation. Ask me about his projects, skills, Oracle certification, or contact links!"
+    )
 
 
 class ChatMessage(BaseModel):
@@ -90,12 +120,9 @@ app.add_middleware(
 
 async def call_gemini(message: str, history: List[ChatMessage]) -> str:
     api_key = os.getenv("GEMINI_API_KEY", "").strip()
-    model = os.getenv("GEMINI_MODEL", "gemini-2.5-flash").strip()
+    model = os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite").strip()
     if not api_key or api_key == "your_gemini_api_key_here":
-        raise HTTPException(
-            status_code=500,
-            detail="GEMINI_API_KEY is not configured in backend/.env.",
-        )
+        return fallback_portfolio_answer(message)
 
     contents = []
     for turn in history[-6:]:
@@ -108,47 +135,26 @@ async def call_gemini(message: str, history: List[ChatMessage]) -> str:
         "system_instruction": {"parts": [{"text": SYSTEM_PROMPT}]},
         "contents": contents,
         "generationConfig": {
-            "temperature": 0.2,
-            "maxOutputTokens": 350,
+            "maxOutputTokens": 512,
+            "thinkingConfig": {"thinkingLevel": "minimal"},
         },
     }
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(url, params={"key": api_key}, json=payload)
-        if resp.status_code != 200:
-            raise HTTPException(status_code=502, detail=f"Gemini API error: {resp.text}")
-        data = resp.json()
-
     try:
-        return data["candidates"][0]["content"]["parts"][0]["text"].strip()
-    except (KeyError, IndexError) as exc:
-        raise HTTPException(status_code=502, detail="Unexpected Gemini response format") from exc
-
-
-async def call_ollama(message: str, history: List[ChatMessage]) -> str:
-    base_url = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434").rstrip("/")
-    model = os.getenv("OLLAMA_MODEL", "llama3.2").strip()
-
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}]
-    for turn in history[-6:]:
-        messages.append({"role": turn.role, "content": turn.content})
-    messages.append({"role": "user", "content": message})
-
-    async with httpx.AsyncClient(timeout=60.0) as client:
-        resp = await client.post(
-            f"{base_url}/api/chat",
-            json={
-                "model": model,
-                "messages": messages,
-                "stream": False,
-                "options": {"temperature": 0.2},
-            },
-        )
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            resp = await client.post(
+                url,
+                headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
+                json=payload,
+            )
         if resp.status_code != 200:
-            raise HTTPException(status_code=502, detail=f"Ollama error: {resp.text}")
+            return fallback_portfolio_answer(message)
         data = resp.json()
-
-    return data.get("message", {}).get("content", "").strip() or REFUSAL_MESSAGE
+        parts = data["candidates"][0]["content"]["parts"]
+        text_parts = [p["text"] for p in parts if "text" in p and not p.get("thought")]
+        return "\n".join(text_parts).strip() or fallback_portfolio_answer(message)
+    except (httpx.TimeoutException, httpx.HTTPError, KeyError, IndexError):
+        return fallback_portfolio_answer(message)
 
 
 @app.get("/api/health")
@@ -156,30 +162,23 @@ async def health():
     return {
         "status": "ok",
         "provider": os.getenv("LLM_PROVIDER", "gemini"),
+        "model": os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite"),
         "owner": PORTFOLIO_DATA["name"],
     }
 
 
 @app.post("/api/chat", response_model=ChatResponse)
 async def chat(req: ChatRequest):
-    provider = os.getenv("LLM_PROVIDER", "gemini").lower().strip()
-
-    # Layer 1: Fast guardrail against clearly off-topic prompts
     if not is_likely_in_scope(req.message):
         return ChatResponse(reply=REFUSAL_MESSAGE, in_scope=False, provider="guardrail")
 
-    # Layer 2: Grounded LLM reasoning with strict system-prompt scope enforcement
-    if provider == "ollama":
-        reply = await call_ollama(req.message, req.history)
-    else:
-        reply = await call_gemini(req.message, req.history)
-
+    reply = await call_gemini(req.message, req.history)
     in_scope = REFUSAL_MESSAGE[:40].lower() not in reply.lower()
-    return ChatResponse(reply=reply, in_scope=in_scope, provider=provider)
+    return ChatResponse(reply=reply, in_scope=in_scope, provider="gemini")
 
 
 @app.get("/")
 async def serve_frontend():
     if not FRONTEND_PATH.exists():
-        raise HTTPException(status_code=404, detail="frontend/index.html not found")
+        raise HTTPException(status_code=404, detail="public/index.html not found")
     return FileResponse(FRONTEND_PATH)
