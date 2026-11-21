@@ -1,4 +1,4 @@
-# Sharath M B — Full-Stack AI Portfolio (Vercel-Ready)
+# Sharath M B — Full-Stack Portfolio
 
 Apple-inspired Burgundy & Off-White 3D portfolio connected to a FastAPI + Gemini AI assistant with strict portfolio-only guardrails.
 
